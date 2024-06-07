@@ -1,7 +1,9 @@
-const capitalize = require('./capitalize')
-const reverseString = require('./reverseString')
+const capitalize = require('./capitalize');
+const reverseString = require('./reverseString');
 const calculator = require('./calculator');
+const cipher = require('./caeserCipher');
 const myCalculator = calculator();
+
 describe('testing capitalization', () => {  
     // Tests for the 'capitalize' method
     test("capitalization of multiple lowercase words", () => {
@@ -253,6 +255,65 @@ describe('testing calculator', () => {
         expect(myCalculator.divide(1.1, 2.2)).toBeCloseTo(0.5, 5);
     });
 
+});
+
+describe ("caeser cipher", () => {
+        // Basic test for Caesar cipher with a shift of 3
+    test("Caesar cipher with shift 3", () => {
+        expect(cipher('Hello, World!', 3)).toBe('Khoor, Zruog!');
+    });
+
+    // Tests for Caesar cipher with different shifts
+    test("Caesar cipher with shift 1", () => {
+        expect(cipher('abc', 1)).toBe('bcd');
+    });
+
+    test("Caesar cipher with shift 5", () => {
+        expect(cipher('xyz', 5)).toBe('cde');
+    });
+
+    test("Caesar cipher with shift 13 (ROT13)", () => {
+        expect(cipher('Hello, World!', 13)).toBe('Uryyb, Jbeyq!');
+    });
+
+    test("Caesar cipher with negative shift", () => {
+        expect(cipher('Khoor, Zruog!', -3)).toBe('Hello, World!');
+    });
+
+    // Tests for Caesar cipher wrapping around the alphabet
+    test("Caesar cipher wrapping around end of alphabet", () => {
+        expect(cipher('xyz', 3)).toBe('abc');
+    });
+
+    test("Caesar cipher wrapping around start of alphabet with negative shift", () => {
+        expect(cipher('abc', -3)).toBe('xyz');
+    });
+
+    // Tests for Caesar cipher with non-alphabetic characters
+    test("Caesar cipher with numbers", () => {
+        expect(cipher('123', 4)).toBe('123');
+    });
+
+    test("Caesar cipher with special characters", () => {
+        expect(cipher('!@#$', 2)).toBe('!@#$');
+    });
+
+    // Edge cases
+    test("Caesar cipher with empty string", () => {
+        expect(cipher('', 3)).toBe('');
+    });
+
+    test("Caesar cipher with single character", () => {
+        expect(cipher('a', 1)).toBe('b');
+    });
+
+    test("Caesar cipher with single uppercase character", () => {
+        expect(cipher('A', 1)).toBe('B');
+    });
+
+    test("Caesar cipher with large shift", () => {
+        expect(cipher('abc', 29)).toBe('def'); // 29 % 26 = 3
+    });
 });
   
   
