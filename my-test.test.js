@@ -2,6 +2,7 @@ const capitalize = require('./capitalize');
 const reverseString = require('./reverseString');
 const calculator = require('./calculator');
 const cipher = require('./caeserCipher');
+const analyzeArray = require('./analyzeArray');
 const myCalculator = calculator();
 
 describe('testing capitalization', () => {  
@@ -313,6 +314,69 @@ describe ("caeser cipher", () => {
 
     test("Caesar cipher with large shift", () => {
         expect(cipher('abc', 29)).toBe('def'); // 29 % 26 = 3
+    });
+});
+
+describe('analyze array', () => { 
+    // Additional tests for the 'analyzeArray' function
+    test("array with negative numbers", () => {
+        const object = {
+            average: -2,
+            min: -8,
+            max: 4,
+            length: 7
+        };
+        expect(analyzeArray([-1, -8, -3, 4, 0, -2, -4])).toEqual(object);
+    });
+
+    test("array with duplicate numbers", () => {
+        const object = {
+            average: 3,
+            min: 2,
+            max: 4,
+            length: 6
+        };
+        expect(analyzeArray([2, 4, 3, 2, 4, 3])).toEqual(object);
+    });
+
+    test("array with all identical numbers", () => {
+        const object = {
+            average: 5,
+            min: 5,
+            max: 5,
+            length: 5
+        };
+        expect(analyzeArray([5, 5, 5, 5, 5])).toEqual(object);
+    });
+
+    test("empty array", () => {
+        const object = {
+            average: NaN,
+            min: undefined,
+            max: undefined,
+            length: 0
+        };
+        expect(analyzeArray([])).toEqual(object);
+    });
+
+    test("array with one element", () => {
+        const object = {
+            average: 6,
+            min: 6,
+            max: 6,
+            length: 1
+        };
+        expect(analyzeArray([6])).toEqual(object);
+    });
+
+    test("array with large numbers", () => {
+        const object = {
+            average:  1450000,
+            min: 100000,
+            max: 10000000,
+            length: 10
+        };
+        expect(analyzeArray([100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 10000000])).toEqual(object);
     });
 });
   
